@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hour Rich — Get 5+ Hours Back Every Week</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg: #0A0814;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(167,139,250,0.2);
+            --text: #F0ECF6;
+            --text-mid: #B8B0CA;
+            --text-dim: #7A7290;
+            --violet: #A78BFA;
+            --sky: #38BDF8;
+            --purple: #C084FC;
+            --gradient: linear-gradient(135deg, #A78BFA 0%, #38BDF8 100%);
+            --glow-v: rgba(167,139,250,0.15);
+            --glow-s: rgba(56,189,248,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(167,139,250,0.25); }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 15% 10%, var(--glow-v) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 85% 20%, var(--glow-s) 0%, transparent 45%),
+                radial-gradient(ellipse 50% 60% at 50% 85%, rgba(192,132,252,0.08) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        .container-sm { max-width: 760px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* ═══ Nav ═══ */
+        nav {
+            padding: 20px 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-size: 20px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+        .nav-cta {
+            padding: 10px 24px; border-radius: 10px; background: var(--gradient);
+            color: white; font-size: 14px; font-weight: 600; text-decoration: none;
+            transition: all 0.3s; border: none; cursor: pointer;
+        }
+        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--glow-v); }
+
+        /* ═══ Hero ═══ */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        @keyframes moveBlob1 {
+            0%   { top: -60px; left: 15%; }
+            25%  { top: 40%;   left: 90%; }
+            50%  { top: 85%;   left: 65%; }
+            75%  { top: 50%;   left: -5%; }
+            100% { top: -60px; left: 15%; }
+        }
+        @keyframes moveBlob2 {
+            0%   { top: 80%;  left: 80%; }
+            25%  { top: -40px; left: 45%; }
+            50%  { top: 30%;  left: -5%; }
+            75%  { top: 90%;  left: 35%; }
+            100% { top: 80%;  left: 80%; }
+        }
+        @keyframes moveBlob3 {
+            0%   { top: 45%;  left: -8%; }
+            25%  { top: -30px; left: 35%; }
+            50%  { top: 35%;  left: 92%; }
+            75%  { top: 88%;  left: 55%; }
+            100% { top: 45%;  left: -8%; }
+        }
+        @keyframes blobPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50%      { opacity: 0.65; transform: scale(1.12); }
+        }
+
+        .hero-blobs {
+            position: absolute; inset: -40px; pointer-events: none; z-index: -1;
+        }
+        .hero-blobs .b1, .hero-blobs .b2, .hero-blobs .b3 {
+            position: absolute; border-radius: 50%; filter: blur(60px);
+        }
+        .hero-blobs .b1 {
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, #A78BFA 0%, transparent 70%);
+            animation: moveBlob1 12s ease-in-out infinite, blobPulse 5s ease-in-out infinite;
+        }
+        .hero-blobs .b2 {
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, #38BDF8 0%, transparent 70%);
+            animation: moveBlob2 16s ease-in-out infinite, blobPulse 6s ease-in-out infinite 1s;
+        }
+        .hero-blobs .b3 {
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, #C084FC 0%, transparent 70%);
+            animation: moveBlob3 14s ease-in-out infinite, blobPulse 4.5s ease-in-out infinite 0.5s;
+        }
+
+        .hero-badge {
+            display: inline-block; padding: 8px 20px; margin-bottom: 28px;
+            border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--violet);
+            letter-spacing: 1px; text-transform: uppercase;
+            background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.15);
+        }
+        .hero h1 {
+            font-size: 64px; font-weight: 900; letter-spacing: -3px; line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #E8E0F0, #F0ECF6, #D8D0E8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-sub {
+            font-size: 19px; color: var(--text-mid); max-width: 560px; margin: 0 auto 40px;
+            font-weight: 400; line-height: 1.7;
+        }
+        .hero-cta {
+            display: inline-block; padding: 18px 48px; border-radius: 14px;
+            background: var(--gradient); color: white; font-size: 17px; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: none; cursor: pointer;
+            box-shadow: 0 4px 20px var(--glow-v);
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px var(--glow-v), 0 0 60px var(--glow-s);
+        }
+        .hero-price {
+            margin-top: 16px; font-size: 14px; color: var(--text-dim);
+        }
+        .hero-price s { color: var(--text-dim); opacity: 0.6; }
+        .hero-price strong { color: var(--violet); }
+
+        /* ═══ Social Proof Bar ═══ */
+        .proof-bar {
+            display: flex; justify-content: center; gap: 40px; padding: 32px 0;
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            margin-bottom: 80px;
+        }
+        .proof-item { text-align: center; }
+        .proof-num { font-size: 28px; font-weight: 800; color: var(--text);
+            text-shadow: 0 0 20px var(--glow-v); }
+        .proof-label { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+        /* ═══ Section ═══ */
+        .section { padding: 80px 0; }
+        .section-label {
+            font-size: 12px; font-weight: 700; color: var(--violet); letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 12px;
+            text-shadow: 0 0 16px var(--glow-v);
+        }
+        .section-title {
+            font-size: 40px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .section-desc {
+            font-size: 17px; color: var(--text-mid); max-width: 560px; line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        /* ═══ Problem ═══ */
+        .problem-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .problem-card {
+            padding: 28px; border-radius: 16px;
+            background: var(--surface); border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .problem-card:hover { border-color: var(--border-hover); background: var(--surface-hover); }
+        .problem-icon { font-size: 28px; margin-bottom: 14px; }
+        .problem-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+        .problem-card p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+        /* ═══ Layers ═══ */
+        .layers-grid { display: flex; flex-direction: column; gap: 20px; }
+        .layer {
+            padding: 36px; border-radius: 20px;
+            background: var(--surface); border: 1px solid var(--border);
+            display: flex; gap: 32px; align-items: flex-start;
+            transition: all 0.3s;
+        }
+        .layer:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .layer-num {
+            font-size: 48px; font-weight: 900; flex-shrink: 0; line-height: 1;
+            text-shadow: 0 0 20px var(--glow-v);
+        }
+        .layer-num.l1 { color: var(--violet); }
+        .layer-num.l2 { color: var(--sky); }
+        .layer-num.l3 { color: var(--purple); }
+        .layer-content h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+        .layer-content .layer-tag {
+            font-size: 12px; font-weight: 600; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+        }
+        .layer-content p { font-size: 15px; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
+        .layer-features {
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .layer-tag-pill {
+            padding: 5px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+            background: rgba(167,139,250,0.08); color: var(--text-mid);
+            border: 1px solid rgba(167,139,250,0.1);
+        }
+
+        /* ═══ How it Works ═══ */
+        .steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+        .steps::before {
+            content: ''; position: absolute; left: 24px; top: 30px; bottom: 30px;
+            width: 2px; background: linear-gradient(to bottom, var(--violet), var(--sky), var(--purple));
+            border-radius: 2px; opacity: 0.3;
+        }
+        .step-row {
+            display: flex; gap: 24px; align-items: flex-start; padding: 24px 0;
+        }
+        .step-dot {
+            width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: 900; color: var(--violet);
+            background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.15);
+            text-shadow: 0 0 12px var(--glow-v);
+            position: relative; z-index: 1;
+        }
+        .step-text h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .step-text p { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+        /* ═══ Daily Timeline ═══ */
+        .timeline { display: flex; flex-direction: column; gap: 12px; }
+        .tl-item {
+            display: flex; align-items: center; gap: 20px; padding: 18px 24px;
+            border-radius: 14px; background: var(--surface); border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .tl-item:hover { border-color: var(--border-hover); }
+        .tl-time {
+            font-size: 13px; font-weight: 800; color: var(--violet); min-width: 80px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            text-shadow: 0 0 12px var(--glow-v);
+        }
+        .tl-text { font-size: 14px; color: var(--text-mid); }
+        .tl-text strong { color: var(--text); }
+
+        /* ═══ Features Grid ═══ */
+        .features-grid {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+        }
+        .feature-card {
+            padding: 28px; border-radius: 16px;
+            background: var(--surface); border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .feature-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .feature-cmd {
+            display: inline-block; padding: 4px 12px; border-radius: 6px; margin-bottom: 14px;
+            font-family: 'SF Mono','Consolas',monospace; font-size: 13px; font-weight: 600;
+            background: rgba(167,139,250,0.1); color: var(--violet);
+        }
+        .feature-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+        /* ═══ Testimonials ═══ */
+        .testimonial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .testimonial {
+            padding: 28px; border-radius: 16px;
+            background: var(--surface); border: 1px solid var(--border);
+        }
+        .testimonial-text {
+            font-size: 15px; color: var(--text-mid); line-height: 1.7;
+            font-style: italic; margin-bottom: 16px;
+        }
+        .testimonial-author { font-size: 13px; font-weight: 700; color: var(--text); }
+        .testimonial-role { font-size: 12px; color: var(--text-dim); }
+
+        /* ═══ Pricing ═══ */
+        .pricing-card {
+            max-width: 520px; margin: 0 auto; padding: 48px;
+            border-radius: 24px; text-align: center;
+            background: var(--surface);
+            border: 1px solid rgba(167,139,250,0.2);
+            box-shadow: 0 0 60px var(--glow-v), 0 0 120px var(--glow-s);
+            position: relative; overflow: hidden;
+        }
+        .pricing-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 2px; background: var(--gradient);
+        }
+        .pricing-badge {
+            display: inline-block; padding: 6px 16px; border-radius: 50px;
+            font-size: 11px; font-weight: 700; color: var(--violet);
+            background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.15);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;
+        }
+        .pricing-card h2 { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; }
+        .pricing-amount {
+            font-size: 56px; font-weight: 900; letter-spacing: -2px; margin: 16px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .pricing-amount .was { font-size: 22px; color: var(--text-dim); text-decoration: line-through;
+            -webkit-text-fill-color: var(--text-dim); margin-right: 8px; }
+        .pricing-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 32px; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 36px; }
+        .pricing-features li {
+            padding: 10px 0; font-size: 15px; color: var(--text-mid);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-check { color: var(--violet); font-size: 16px; font-weight: 700; }
+        .pricing-cta {
+            display: block; width: 100%; padding: 18px; border-radius: 14px;
+            background: var(--gradient); color: white; font-size: 17px; font-weight: 700;
+            text-decoration: none; border: none; cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px var(--glow-v);
+        }
+        .pricing-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px var(--glow-v), 0 0 60px var(--glow-s);
+        }
+
+        /* ═══ FAQ ═══ */
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item {
+            padding: 24px 28px; border-radius: 14px;
+            background: var(--surface); border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: var(--border-hover); }
+        .faq-q {
+            font-size: 15px; font-weight: 700; display: flex; justify-content: space-between;
+            align-items: center;
+        }
+        .faq-q::after { content: '+'; font-size: 20px; color: var(--violet); font-weight: 300; }
+        .faq-item.open .faq-q::after { content: '\2212'; }
+        .faq-a {
+            font-size: 14px; color: var(--text-mid); line-height: 1.7;
+            max-height: 0; overflow: hidden; transition: all 0.35s ease;
+            margin-top: 0;
+        }
+        .faq-item.open .faq-a { max-height: 200px; margin-top: 14px; }
+
+        /* ═══ Final CTA ═══ */
+        .final-cta {
+            text-align: center; padding: 100px 0 60px;
+        }
+        .final-cta h2 {
+            font-size: 44px; font-weight: 900; letter-spacing: -2px; margin-bottom: 16px;
+            line-height: 1.1;
+        }
+        .final-cta p { font-size: 17px; color: var(--text-mid); margin-bottom: 36px; }
+
+        /* ═══ Footer ═══ */
+        footer {
+            text-align: center; padding: 40px 0; font-size: 13px; color: var(--text-dim);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ═══ Responsive ═══ */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 38px; letter-spacing: -1.5px; }
+            .hero-sub { font-size: 16px; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .layer { flex-direction: column; gap: 16px; }
+            .section-title { font-size: 30px; }
+            .proof-bar { flex-direction: column; gap: 20px; }
+            .pricing-card { padding: 32px 24px; }
+            .pricing-amount { font-size: 42px; }
+            .final-cta h2 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="container">
+    <nav>
+        <div class="nav-logo">Hour Rich</div>
+        <a href="#pricing" class="nav-cta">Get Hour Rich</a>
+    </nav>
+</div>
+
+<!-- Hero -->
+<div class="container">
+    <section class="hero">
+        <div class="hero-blobs">
+            <div class="b1"></div>
+            <div class="b2"></div>
+            <div class="b3"></div>
+        </div>
+        <div class="hero-badge">AI-Powered Life System</div>
+        <h1>Stop trading hours<br>for <span>dollars</span></h1>
+        <p class="hero-sub">Get 5+ hours back every week and $100&ndash;$500 back in your pocket every month &mdash; because AI is finally doing the heavy lifting across your life, your backend, and your clients.</p>
+        <a href="#pricing" class="hero-cta">Get Hour Rich Now</a>
+        <p class="hero-price"><s>$197</s> &nbsp;<strong>$67</strong> &mdash; pre-sale price</p>
+    </section>
+</div>
+
+<!-- Social Proof -->
+<div class="container">
+    <div class="proof-bar">
+        <div class="proof-item">
+            <div class="proof-num">5+</div>
+            <div class="proof-label">Hours saved per week</div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-num">13</div>
+            <div class="proof-label">AI automations built in</div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-num">3</div>
+            <div class="proof-label">Layers of your life covered</div>
+        </div>
+        <div class="proof-item">
+            <div class="proof-num">15 min</div>
+            <div class="proof-label">Setup time, once</div>
+        </div>
+    </div>
+</div>
+
+<!-- Problem -->
+<div class="container-sm">
+    <section class="section">
+        <div class="section-label">The Problem</div>
+        <h2 class="section-title">You've tried AI.<br>It didn't save you time.</h2>
+        <p class="section-desc">You prompted. You copied. You pasted. You re-prompted. You ended up rewriting the whole thing anyway. Sound familiar?</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-icon">&#128564;</div>
+                <h3>AI slop everywhere</h3>
+                <p>Every output sounds like a robot wrote it. You spend more time editing than you would've spent writing from scratch.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#128260;</div>
+                <h3>Copy-paste hamster wheel</h3>
+                <p>Open tab, type prompt, copy result, paste somewhere, repeat. This isn't automation &mdash; it's just extra steps.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#9201;</div>
+                <h3>Still the bottleneck</h3>
+                <p>Email, content, clients, admin, ads, analytics &mdash; it all still flows through you. AI was supposed to fix that.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">&#128168;</div>
+                <h3>14-hour workdays</h3>
+                <p>You started this business for freedom. Somewhere along the way, freedom got replaced with a never-ending to-do list.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- What is it -->
+<div class="container-sm">
+    <section class="section">
+        <div class="section-label">The Solution</div>
+        <h2 class="section-title">Hour Rich is your<br>AI operating system</h2>
+        <p class="section-desc">Not a prompt library. Not a tutorial. A complete system that runs in the background &mdash; handling your life, your business, and your clients while you focus on what matters.</p>
+    </section>
+</div>
+
+<!-- 3 Layers -->
+<div class="container-sm">
+    <section class="section" style="padding-top:0">
+        <div class="section-label">Three Layers</div>
+        <h2 class="section-title">Covers your entire world</h2>
+        <p class="section-desc">Most AI tools solve one problem. Hour Rich covers three layers of your life.</p>
+        <div class="layers-grid">
+            <div class="layer">
+                <div class="layer-num l1">1</div>
+                <div class="layer-content">
+                    <div class="layer-tag">Your Life</div>
+                    <h3>Personal Layer</h3>
+                    <p>Morning routines, meal planning, journaling, personal admin. Like having a personal assistant who makes sure nothing falls through the cracks before you even sit down to work.</p>
+                    <div class="layer-features">
+                        <span class="layer-tag-pill">Journal prompts</span>
+                        <span class="layer-tag-pill">Meal planner</span>
+                        <span class="layer-tag-pill">Grocery lists</span>
+                        <span class="layer-tag-pill">Personal admin</span>
+                    </div>
+                </div>
+            </div>
+            <div class="layer">
+                <div class="layer-num l2">2</div>
+                <div class="layer-content">
+                    <div class="layer-tag">Your Business</div>
+                    <h3>Backend Layer</h3>
+                    <p>Email drafting in your voice, content analytics, ad monitoring, Google Analytics, file organization, weekly reports. This is where 5+ hours come back every week.</p>
+                    <div class="layer-features">
+                        <span class="layer-tag-pill">Email drafts</span>
+                        <span class="layer-tag-pill">Content analytics</span>
+                        <span class="layer-tag-pill">Ad monitoring</span>
+                        <span class="layer-tag-pill">GA reports</span>
+                        <span class="layer-tag-pill">File organizer</span>
+                        <span class="layer-tag-pill">Copy editor</span>
+                    </div>
+                </div>
+            </div>
+            <div class="layer">
+                <div class="layer-num l3">3</div>
+                <div class="layer-content">
+                    <div class="layer-tag">Your Clients</div>
+                    <h3>Client Layer</h3>
+                    <p>Onboarding flows, feedback synthesis, communication templates, program delivery. Your clients get a better experience AND you get your time back.</p>
+                    <div class="layer-features">
+                        <span class="layer-tag-pill">Onboarding</span>
+                        <span class="layer-tag-pill">Feedback analysis</span>
+                        <span class="layer-tag-pill">Client comms</span>
+                        <span class="layer-tag-pill">Delivery tools</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- How it Works -->
+<div class="container-sm">
+    <section class="section">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Set up once.<br>It runs forever.</h2>
+        <p class="section-desc">No coding. No tech skills. Answer questions, and the system configures itself.</p>
+        <div class="steps">
+            <div class="step-row">
+                <div class="step-dot">1</div>
+                <div class="step-text">
+                    <h3>Download and open</h3>
+                    <p>Unzip the Hour Rich folder. Open it in Claude Code. Takes 2 minutes.</p>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-dot">2</div>
+                <div class="step-text">
+                    <h3>Run the setup wizard</h3>
+                    <p>Type <code>/hour-rich</code>. Answer 20 questions about your life, business, and clients. Takes 15 minutes.</p>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-dot">3</div>
+                <div class="step-text">
+                    <h3>Connect your apps</h3>
+                    <p>Gmail, Calendar, Analytics, Ads, Notion &mdash; all MCP connectors included. Claude walks you through each one.</p>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-dot">4</div>
+                <div class="step-text">
+                    <h3>Wake up to your first brief</h3>
+                    <p>Tomorrow morning your report is waiting. Emails drafted. Stats pulled. Journal prompt ready. You didn't press anything.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- A Day in Your Life -->
+<div class="container-sm">
+    <section class="section">
+        <div class="section-label">Your New Reality</div>
+        <h2 class="section-title">A typical day<br>with Hour Rich</h2>
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-time">7:00 AM</div>
+                <div class="tl-text"><strong>Morning brief arrives automatically.</strong> Email drafts, content stats, ad alerts, journal prompt, daily schedule &mdash; all waiting for you.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-time">8:00 AM</div>
+                <div class="tl-text"><strong>Review over coffee.</strong> Hit send on email drafts. Read your journal prompt. Check today's schedule. 10 minutes.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-time">9:00 AM</div>
+                <div class="tl-text"><strong>Sit down to create.</strong> Files are sorted. Content script ready. Client check-ins drafted. You just... work on the thing that matters.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-time">2:00 PM</div>
+                <div class="tl-text"><strong>Close your laptop.</strong> Everything is handled. Content written. Clients served. No guilt. No loose ends.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-time">Sunday</div>
+                <div class="tl-text"><strong>Weekly report arrives.</strong> Hours saved, what worked, what didn't, and exactly what to focus on next week.</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- All 13 Features -->
+<div class="container">
+    <section class="section">
+        <div class="section-label">What's Included</div>
+        <h2 class="section-title">13 AI automations<br>ready to go</h2>
+        <p class="section-desc">Every skill is built. Every workflow is configured. Just run the setup and they activate.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-cmd">/morning</div>
+                <h3>Morning Brief</h3>
+                <p>Unified daily report across all 3 layers. Automated.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/manage-email</div>
+                <h3>Email Drafts</h3>
+                <p>Scans your inbox. Drafts replies in your voice.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/weekly-report</div>
+                <h3>Weekly Digest</h3>
+                <p>Full performance report with hours-saved tracking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/meal-planner</div>
+                <h3>Meal Planner</h3>
+                <p>Weekly meals + grocery list. Automated on Mondays.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/journal</div>
+                <h3>Journal Prompts</h3>
+                <p>Daily personalized reflection prompts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/copy-editor</div>
+                <h3>Voice Editor</h3>
+                <p>Edit any text to sound like you. Zero AI slop.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/file-organizer</div>
+                <h3>File Organizer</h3>
+                <p>Auto-sorts Downloads every 30 minutes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/ga-report</div>
+                <h3>Analytics Report</h3>
+                <p>Google Analytics insights with recommendations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/personal-admin</div>
+                <h3>Personal Admin</h3>
+                <p>Schedule, reminders, priorities for the day.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/client-comms</div>
+                <h3>Client Messages</h3>
+                <p>Draft check-ins, welcomes, follow-ups in your voice.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/client-feedback</div>
+                <h3>Feedback Analysis</h3>
+                <p>Synthesize client responses into insights.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-cmd">/client-delivery</div>
+                <h3>Client Resources</h3>
+                <p>FAQs, guides, templates for your clients.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- What You Get -->
+<div class="container-sm" id="pricing">
+    <section class="section">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title" style="text-align:center">One price. Everything included.</h2>
+        <p class="section-desc" style="text-align:center;margin-left:auto;margin-right:auto">No subscriptions. No upsells. Download once, use forever.</p>
+        <div class="pricing-card">
+            <div class="pricing-badge">Pre-Sale Price</div>
+            <h2>Hour Rich</h2>
+            <div class="pricing-amount"><span class="was">$197</span>$67</div>
+            <p class="pricing-sub">One-time purchase. Lifetime access.</p>
+            <ul class="pricing-features">
+                <li><span class="pricing-check">&#10003;</span> 13 AI automations across 3 layers</li>
+                <li><span class="pricing-check">&#10003;</span> Setup wizard &mdash; configures everything in 15 min</li>
+                <li><span class="pricing-check">&#10003;</span> 6 MCP connectors included (Gmail, Calendar, Drive, GA, Ads, Notion)</li>
+                <li><span class="pricing-check">&#10003;</span> Automated morning briefs and weekly reports</li>
+                <li><span class="pricing-check">&#10003;</span> AI writes in YOUR voice, not robot voice</li>
+                <li><span class="pricing-check">&#10003;</span> Complete guide with step-by-step instructions</li>
+                <li><span class="pricing-check">&#10003;</span> All future updates included</li>
+                <li><span class="pricing-check">&#10003;</span> Works on Mac and Windows</li>
+            </ul>
+            <a href="#" class="pricing-cta">Get Hour Rich for $67</a>
+        </div>
+    </section>
+</div>
+
+<!-- FAQ -->
+<div class="container-sm">
+    <section class="section">
+        <div class="section-label">Questions</div>
+        <h2 class="section-title">FAQ</h2>
+        <div class="faq-list">
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Do I need to know how to code?</div>
+                <div class="faq-a">No. You answer questions and type simple commands like /morning. Zero coding required. If you can type a text message, you can use Hour Rich.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">What's the monthly cost after buying?</div>
+                <div class="faq-a">Hour Rich itself is a one-time purchase. You'll need a Claude subscription ($20/month for manual use, $100/month for full automation). That's it.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Can I use ChatGPT instead of Claude?</div>
+                <div class="faq-a">No. Hour Rich is built on Claude Code, which has unique features (skills, commands, crons, MCP connectors) that ChatGPT doesn't support.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">What if I don't have clients?</div>
+                <div class="faq-a">Skip Layer 3 during setup. The system works great with just Life + Business layers. Add the Client layer anytime later.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">What if something doesn't work?</div>
+                <div class="faq-a">Tell Claude: "Something isn't working with [problem]. Help me fix it." Claude can read its own files and literally fix itself. Plus there's a complete troubleshooting guide included.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Does it work on Windows and Mac?</div>
+                <div class="faq-a">Yes. Claude Code runs on both platforms. The setup is identical.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">Will AI delete my files or mess things up?</div>
+                <div class="faq-a">No. The File Organizer moves files, never deletes them. It always shows you a plan before moving anything, and you confirm every action.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-q">When does the pre-sale price end?</div>
+                <div class="faq-a">The $67 pre-sale price is available for a limited time. After that, it goes to full price at $197.</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Final CTA -->
+<div class="container">
+    <section class="final-cta">
+        <h2>Ready to close your<br>laptop at 2pm?</h2>
+        <p>15 minutes of setup. 5+ hours back every week. Zero guilt.</p>
+        <a href="#pricing" class="hero-cta">Get Hour Rich for $67</a>
+    </section>
+</div>
+
+<!-- Footer -->
+<div class="container">
+    <footer>
+        <p>Hour Rich &mdash; Built with Claude Code</p>
+    </footer>
+</div>
+
+</body>
+</html>
